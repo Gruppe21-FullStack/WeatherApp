@@ -8,5 +8,7 @@ namespace WeatherApp.Models
 
         [Required]
         public string Name { get; set; }
+
+        public List<Weather> Weathers { get; set; }
     }
 }
