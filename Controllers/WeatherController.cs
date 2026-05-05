@@ -50,7 +50,7 @@ namespace WeatherApp.Controllers
             _context.Weathers.Add(weather);
             await _context.SaveChangesAsync();
 
-            return View("Details", weather);
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Weather/Details/5
