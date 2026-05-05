@@ -24,7 +24,9 @@ namespace WeatherApp.Controllers
         // GET: Weather
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Weathers.Include(w => w.City);
+            var applicationDbContext = _context.Weathers
+            .Include(w => w.City)
+            .OrderByDescending(w => w.Date);
             return View(await applicationDbContext.ToListAsync());
         }
 
