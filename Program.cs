@@ -8,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services
 builder.Services.AddHttpClient<WeatherService>();
 builder.Services.AddControllersWithViews();
-builder.Services.AddRazorPages(); // 👈 مهم
+builder.Services.AddRazorPages();
 
 // Database
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
