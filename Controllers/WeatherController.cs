@@ -39,7 +39,18 @@ namespace WeatherApp.Controllers
 
             var result = await _weatherService.GetWeatherParsed(city.Latitude, city.Longitude);
 
-            return Content($"City: {city.Name} | Temp: {result.temp} | Desc: {result.description} | Time: {result.time}");
+            var weather = new Weather
+            {
+                Temperature = result.temp,
+                Description = result.description,
+                Date = DateTime.Parse(result.time),
+                CityId = city.Id
+            };
+
+            _context.Weathers.Add(weather);
+            await _context.SaveChangesAsync();
+
+            return View("Details", weather);
         }
 
         // GET: Weather/Details/5
