@@ -13,7 +13,7 @@ namespace WeatherApp.Services
             _httpClient = httpClient;
         }
 
-        public async Task<(double temp, string description, string time)> GetWeather(double lat, double lon)
+        public async Task<(double temp, string description, string time)> GetWeatherParsed(double lat, double lon)
         {
             var request = new HttpRequestMessage(
                 HttpMethod.Get,
@@ -27,31 +27,27 @@ namespace WeatherApp.Services
 
             using var doc = JsonDocument.Parse(json);
 
-            var root = doc.RootElement;
-
-            var timeseries = root
+            var timeseries = doc.RootElement
                 .GetProperty("properties")
-                .GetProperty("timeseries");
+                .GetProperty("timeseries")[0];
 
-            var first = timeseries[0];
+            var time = timeseries.GetProperty("time").GetString();
 
-            var time = first.GetProperty("time").GetString();
-
-            var details = first
+            var details = timeseries
                 .GetProperty("data")
                 .GetProperty("instant")
                 .GetProperty("details");
 
             var temp = details.GetProperty("air_temperature").GetDouble();
 
-            var description = first
+            var description = timeseries
                 .GetProperty("data")
                 .GetProperty("next_1_hours")
                 .GetProperty("summary")
                 .GetProperty("symbol_code")
                 .GetString();
 
-            return (temp, description ?? "unknown", time ?? "unknown");
+            return (temp, description, time);
         }
     }
 }

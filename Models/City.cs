@@ -6,9 +6,12 @@ namespace WeatherApp.Models
     {
         public int Id { get; set; }
 
-        [Required]
         public string Name { get; set; }
 
-        public List<Weather> Weathers { get; set; }
+        public double Latitude { get; set; }
+
+        public double Longitude { get; set; }
+
+        public ICollection<Weather>? Weathers { get; set; }
     }
 }

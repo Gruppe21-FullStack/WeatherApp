@@ -28,11 +28,18 @@ namespace WeatherApp.Controllers
             return View(await applicationDbContext.ToListAsync());
         }
 
-        public async Task<IActionResult> GetFromApi()
+        public async Task<IActionResult> GetFromApi(int cityId)
         {
-            var result = await _weatherService.GetWeather(59.91, 10.75);
+            var city = await _context.Cities.FindAsync(cityId);
 
-            return Content($"Temp: {result.temp}, Desc: {result.description}, Time: {result.time}");
+            if (city == null)
+            {
+                return NotFound();
+            }
+
+            var result = await _weatherService.GetWeatherParsed(city.Latitude, city.Longitude);
+
+            return Content($"City: {city.Name} | Temp: {result.temp} | Desc: {result.description} | Time: {result.time}");
         }
 
         // GET: Weather/Details/5

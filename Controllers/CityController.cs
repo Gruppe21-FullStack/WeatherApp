@@ -53,14 +53,28 @@ namespace WeatherApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name")] City city)
+        public async Task<IActionResult> Create([Bind("Id,Name,Latitude,Longitude")] City city)
         {
+            if (!ModelState.IsValid)
+            {
+                foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
+                {
+                    Console.WriteLine("❌ " + error.ErrorMessage);
+                }
+            }
+
             if (ModelState.IsValid)
             {
+                Console.WriteLine("✅ Saving...");
+
                 _context.Add(city);
                 await _context.SaveChangesAsync();
+
+                Console.WriteLine("💾 Saved!");
+
                 return RedirectToAction(nameof(Index));
             }
+
             return View(city);
         }
 
