@@ -1,21 +1,24 @@
 @model IEnumerable<WeatherApp.Models.City>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Cities";
 }
 
-<h1>Index</h1>
+<h1>Cities</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="btn btn-primary">Add New City</a>
 </p>
+
 <table class="table">
     <thead>
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Name)
             </th>
-            <th></th>
+            <th>
+                Actions
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -25,12 +28,18 @@
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                <a asp-controller="Weather" asp-action="GetFromApi" asp-route-cityId="@item.Id">
-                    Show Weather
-                </a> |
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-controller="Weather" 
+                   asp-action="GetFromApi" 
+                   asp-route-cityId="@item.Id"
+                   class="btn btn-success btn-sm">
+                    Fetch Weather
+                </a>
+
+                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning btn-sm">Edit</a>
+
+                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info btn-sm">Details</a>
+
+                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm">Delete</a>
             </td>
         </tr>
 }
